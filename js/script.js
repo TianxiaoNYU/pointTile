@@ -25,8 +25,8 @@ var view = {
       col: 0,
     };
 var initial_view = {
-      row: -1,
-      col: 1,
+      row: -2,
+      col: 2,
     };    
 
 var selected_circles = {};
