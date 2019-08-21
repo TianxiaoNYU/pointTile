@@ -24,10 +24,14 @@ var view = {
       row: 0,
       col: 0,
     };
+var initial_view = {
+      row: -1,
+      col: 1,
+    };    
 
 var selected_circles = {};
 var all_circles = {};
-var all_circles_list = [];
+//var all_circles_list = [];
 var genes = [];
 var circles = [];
 
@@ -45,6 +49,8 @@ var map = new L.Map('map', {
 	crs: crs
 });
 
+// Set list of colors
+// COLORS WILL NEED TO BE EDITED FOR GRADIENT/MORE GROUPS
 var colorlist = [
 	"#FFFF00", "#1CE6FF", "#FF34FF", "#FF4A46", "#008941", "#006FA6", "#A30059",
 	"#FFDBE5", "#7A4900", "#0000A6", "#63FFAC", "#B79762", "#004D43", "#8FB0FF", "#997D87",
@@ -85,8 +91,10 @@ function getcolor(gene_id){
 function refreshView(){
     let center = map.getCenter();
     let references = getReference(L.latLngBounds([center]));
-    console.log(L.latLngBounds([center]));
-    if (!references || !references[0]) return;
+    if (!references || !references[0]){
+    	console.log("Return Initial");
+    	return initial_view;
+    } 
     if (view.row == references[0].row && view.col == references[0].col){
     	return 0;
     } 
@@ -108,9 +116,7 @@ function getReference(bounds){
         if (ystop === (bounds.getSouth() / tileSize)) ystop--;
         for (var i = xstart; i <= xstop; i++) {
         	for (var j = ystart; j <= ystop; j++) {
-        		//if (i>=0 && j>=0){
             	temp.push([i, j]);
-            	//}
           	}
         }
         var res = temp.map((coord) => {
@@ -128,8 +134,11 @@ function loadData(reference){
 		return 0;
 	}
 	//url_list.length = 0;
-	map.removeLayer(selected_circles);
-	map.removeLayer(all_circles);
+	if($("#all_genes").is(':checked')){
+		map.removeLayer(all_circles);
+	}else{
+		map.removeLayer(selected_circles);
+	}
 	//for (var j = 0; j < all_circles_list.length; j++) map.removeLayer(all_circles_list[j]);
 	let zoom = map.getZoom();
 	var original_url = "tile_point/{z}/X_{x}_Y_{y}.csv";
@@ -282,10 +291,6 @@ L.control.mousePosition().addTo(map);
 
       // Set different zoom layers
       //var zoom6layer = new L.FeatureGroup();
-
-      // Set list of colors
-      // COLORS WILL NEED TO BE EDITED FOR GRADIENT/MORE GROUPS
-
 
 L.LayerGroup.include({
 	customGetLayer: function (id) {
