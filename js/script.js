@@ -25,8 +25,8 @@ var view = {
       col: 0,
     };
 var initial_view = {
-      row: -2,
-      col: 2,
+      row: -1,
+      col: 1,
     };    
 
 var selected_circles = {};
@@ -46,7 +46,8 @@ var map = new L.Map('map', {
 	preferCanvas: true,
 	maxZoom: mapMaxZoom,
 	minZoom: mapMinZoom,
-	crs: crs
+	crs: crs,
+	scrollWheelZoom: false
 });
 
 // Set list of colors
@@ -404,7 +405,7 @@ fetch("gene.list")
 		});
 	});
 
-map.setView([-2048, 2048],3);
+map.setView([-1536, 1536],3);
 var new_reference = refreshView();
 
 
