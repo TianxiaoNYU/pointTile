@@ -3,11 +3,12 @@ colnames(raw_data) <- c("X", "Y", "NA", "cellID", "gene")
 # summary(raw_data$X)
 # summary(raw_data$Y)
 total_size <- 8192
+wd <- getwd()
 
 for(k in 0:5){
   width <- total_size / (2^k)
   tile_number <- 2^k-1
-  new_dir <- paste0("/Users/zhaotianxiao/Desktop/test/tile_point/", k, "/")
+  new_dir <- paste0(wd, "/tile_point/", k, "/")
   dir.create(new_dir, mode = '0777', showWarnings = F)
   setwd(new_dir)
   for(i in 0:tile_number){

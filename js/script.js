@@ -91,6 +91,7 @@ function getcolor(gene_id){
 
 function refreshView(){
     let center = map.getCenter();
+    console.log(center);
     let references = getReference(L.latLngBounds([center]));
     if (!references || !references[0]){
     	console.log("Return Initial");
